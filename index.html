@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <h1>Pomodoro Timer</h1>
+        <p>Stay focused, take breaks, repeat.</p>
+      </header>
+
+      <section class="mode-switcher" aria-label="Timer mode">
+        <button id="focusModeBtn" class="mode-btn active" type="button">Focus</button>
+        <button id="shortBreakModeBtn" class="mode-btn" type="button">Short Break</button>
+        <button id="longBreakModeBtn" class="mode-btn" type="button">Long Break</button>
+      </section>
+
+      <section class="timer-panel" aria-live="polite">
+        <p class="session-label" id="sessionLabel">Focus Session</p>
+        <p class="timer-display" id="timerDisplay">25:00</p>
+        <p class="cycle-text" id="cycleText">Cycle 1 of 4</p>
+      </section>
+
+      <section class="controls" aria-label="Timer controls">
+        <button id="startPauseBtn" class="control-btn primary" type="button">Start</button>
+        <button id="resetBtn" class="control-btn" type="button">Reset</button>
+        <button id="skipBtn" class="control-btn" type="button">Skip</button>
+      </section>
+
+      <section class="settings" aria-labelledby="settingsTitle">
+        <h2 id="settingsTitle">Settings</h2>
+        <form id="settingsForm">
+          <div class="field-grid">
+            <label for="focusMinutes">Focus (min)</label>
+            <input id="focusMinutes" type="number" min="1" max="90" value="25" required />
+
+            <label for="shortBreakMinutes">Short Break (min)</label>
+            <input
+              id="shortBreakMinutes"
+              type="number"
+              min="1"
+              max="30"
+              value="5"
+              required
+            />
+
+            <label for="longBreakMinutes">Long Break (min)</label>
+            <input id="longBreakMinutes" type="number" min="1" max="60" value="15" required />
+
+            <label for="cyclesBeforeLongBreak">Cycles Before Long Break</label>
+            <input
+              id="cyclesBeforeLongBreak"
+              type="number"
+              min="2"
+              max="8"
+              value="4"
+              required
+            />
+          </div>
+
+          <button class="control-btn save" type="submit">Save Settings</button>
+        </form>
+      </section>
+
+      <p class="status" id="statusMessage" role="status">
+        Ready to focus.
+      </p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
