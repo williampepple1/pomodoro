@@ -157,10 +157,42 @@ function nextAutomaticMode() {
   return SessionMode.FOCUS;
 }
 
+function playNotificationSound() {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Play a pleasant two-tone chime (E5 → G5)
+    const notes = [659.25, 783.99]; // E5, G5
+    notes.forEach((freq, i) => {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      // Smooth envelope: quick attack, gentle decay
+      const startTime = audioCtx.currentTime + i * 0.25;
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.4, startTime + 0.05);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 0.6);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start(startTime);
+      oscillator.stop(startTime + 0.6);
+    });
+  } catch {
+    // Silently ignore if Web Audio API is unavailable.
+  }
+}
+
 function completeCurrentSession() {
   stopInterval();
   state.isRunning = false;
   el.startPauseBtn.textContent = "Start";
+
+  playNotificationSound();
 
   const upcomingMode = nextAutomaticMode();
   setMode(upcomingMode);
